@@ -9,9 +9,12 @@ export default function ProductCard({ p }: { p: Product }) {
   return (
     <div className="flex flex-col rounded border border-gray-200 bg-white p-3">
       <Link href={`/product/${p.id}`}>
-        <div className="flex h-32 items-center justify-center rounded bg-gray-100 text-sm text-gray-400">
-          Ảnh sản phẩm
-        </div>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={p.img}
+          alt={p.name}
+          className="h-32 w-full rounded object-cover"
+        />
         <div className="mt-2 font-semibold">{p.name}</div>
       </Link>
       <div className="mt-1 text-[#E53935]">{vnd(p.price)}</div>

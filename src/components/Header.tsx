@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useCart } from "@/lib/store";
+import { useCart, useAuth } from "@/lib/store";
 
 export default function Header() {
   const count = useCart((s) => s.count());
+  const user = useAuth((s) => s.user);
+  const logout = useAuth((s) => s.logout);
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
@@ -24,6 +26,18 @@ export default function Header() {
           <Link href="/cart" className="whitespace-nowrap text-sm">
             🛒 Giỏ hàng ({mounted ? count : 0})
           </Link>
+          {mounted && user ? (
+            <span className="flex items-center gap-2 whitespace-nowrap text-sm">
+              👤 {user.name}
+              <button onClick={logout} className="underline opacity-80 hover:opacity-100">
+                Đăng xuất
+              </button>
+            </span>
+          ) : (
+            <Link href="/login" className="whitespace-nowrap text-sm">
+              Đăng nhập
+            </Link>
+          )}
         </div>
       </div>
       <nav className="bg-[#E3F2FD]">

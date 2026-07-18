@@ -2,18 +2,25 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useCart } from "@/lib/store";
+import { useCart, useAuth } from "@/lib/store";
 import { vnd } from "@/lib/products";
 
 const SHIP = 30000;
 
 export default function CheckoutPage() {
   const { items, total } = useCart();
+  const user = useAuth((s) => s.user);
   const router = useRouter();
   const [method, setMethod] = useState<"vnpay" | "cod">("vnpay");
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
   if (!mounted) return null;
+
+  // Tiền điều kiện của use case: khách phải đăng nhập
+  if (!user) {
+    router.push("/login?redirect=/checkout");
+    return null;
+  }
 
   if (items.length === 0)
     return <div className="text-gray-600">Giỏ hàng trống, không thể thanh toán.</div>;

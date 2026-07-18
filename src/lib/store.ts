@@ -43,3 +43,21 @@ export const useCart = create<CartState>()(
     { name: "shopvn-cart" }
   )
 );
+
+type AuthState = {
+  user: { name: string; email: string } | null;
+  login: (email: string, name?: string) => void;
+  logout: () => void;
+};
+
+export const useAuth = create<AuthState>()(
+  persist(
+    (set) => ({
+      user: null,
+      login: (email, name) =>
+        set({ user: { email, name: name || email.split("@")[0] } }),
+      logout: () => set({ user: null }),
+    }),
+    { name: "shopvn-auth" }
+  )
+);

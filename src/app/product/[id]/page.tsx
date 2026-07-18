@@ -15,9 +15,8 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
 
   return (
     <div className="grid gap-8 md:grid-cols-2">
-      <div className="flex h-80 items-center justify-center rounded bg-gray-100 text-gray-400">
-        Ảnh sản phẩm
-      </div>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={p.img} alt={p.name} className="h-80 w-full rounded object-cover" />
       <div>
         <h1 className="text-2xl font-bold">{p.name}</h1>
         <div className="mt-2 text-xl font-bold text-[#E53935]">{vnd(p.price)}</div>
