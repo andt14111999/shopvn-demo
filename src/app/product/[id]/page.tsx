@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { getProduct, vnd } from "@/lib/products";
-import { useCart } from "@/lib/store";
+import { vnd } from "@/lib/products";
+import { useCart, useProducts } from "@/lib/store";
 
 export default function ProductDetail({ params }: { params: { id: string } }) {
-  const p = getProduct(Number(params.id));
+  const p = useProducts((s) => s.items.find((i) => i.id === Number(params.id)));
   const add = useCart((s) => s.add);
   const router = useRouter();
   const [qty, setQty] = useState(1);

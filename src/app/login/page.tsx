@@ -3,19 +3,21 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
-import { useAuth } from "@/lib/store";
+import { useAuth, useUsers } from "@/lib/store";
 
 function LoginForm() {
   const router = useRouter();
   const params = useSearchParams();
   const login = useAuth((s) => s.login);
+  const addUser = useUsers((s) => s.addUser);
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !pass) return;
-    login(email);
+    const u = login(email);
+    addUser({ name: u.name, email: u.email, role: u.role, locked: false });
     router.push(params.get("redirect") || "/");
   };
 
@@ -53,6 +55,9 @@ function LoginForm() {
         <Link href="/register" className="text-[#1565C0] underline">
           Đăng ký
         </Link>
+      </p>
+      <p className="mt-3 text-center text-xs text-gray-400">
+        Demo quản trị: admin@shopvn.vn (mật khẩu bất kỳ)
       </p>
     </div>
   );

@@ -3,11 +3,12 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useAuth } from "@/lib/store";
+import { useAuth, useUsers } from "@/lib/store";
 
 export default function RegisterPage() {
   const router = useRouter();
   const login = useAuth((s) => s.login);
+  const addUser = useUsers((s) => s.addUser);
   const [form, setForm] = useState({ name: "", email: "", phone: "", pass: "" });
 
   const set = (k: string) => (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -16,8 +17,9 @@ export default function RegisterPage() {
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.name || !form.email || !form.pass) return;
-    // đăng ký thành công -> tự đăng nhập (demo, không có backend thật)
-    login(form.email, form.name);
+    // đăng ký thành công -> lưu user + tự đăng nhập (demo, không có backend thật)
+    const u = login(form.email, form.name);
+    addUser({ name: u.name, email: u.email, role: u.role, locked: false });
     router.push("/");
   };
 

@@ -21,3 +21,12 @@ export const products: Product[] = [
 export const getProduct = (id: number) => products.find((p) => p.id === id);
 
 export const vnd = (n: number) => n.toLocaleString("vi-VN") + "đ";
+
+export const STATUS_VI: Record<string, string> = {
+  PENDING: "Chờ xác nhận",
+  PAID: "Đã thanh toán",
+  SHIPPING: "Đang giao",
+  DELIVERED: "Đã giao",
+  CANCELLED: "Đã hủy",
+  EXPIRED: "Hết hạn",
+};
